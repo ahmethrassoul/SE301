@@ -48,19 +48,18 @@ float vec_max_sse4(
         _mm_storeu_ps( tab, buff );
 
         // Afficher les elements du buffer
-        for(int i = 0; i < 4; i += 1) {
+        for(int i = 0; i < simd; i += 1) {
                 printf("buff[%d] = %f\n", i ,  buff[i]);
         }
 
         //
         // processing the rest of the elements
         //
-        for (int i = 0; i < 4; i+= 1)
+        for (int i = 0; i < simd; i+= 1)
         {
                 if (tab[i] > max ) {
                         max = tab[i];
                 }
-                printf("tab[%d] = %f\n", i, tab[i]);
                 printf("max = %f\n", max);
         }
 
