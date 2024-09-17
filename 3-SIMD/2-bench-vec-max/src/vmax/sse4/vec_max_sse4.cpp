@@ -33,15 +33,32 @@ float vec_max_sse4(
 
         const __m128 buff = _mm_loadu_ps( src );
 
+        float max = 0;
+        float tab[4];
+
          for(int x = 0; x < length; x += simd) {
 
                 const __m128 others = _mm_loadu_ps( src + x );
 
-                const __m128 c = _mm_max_ps(....)
+                const __m128 c = _mm_max_ps(buff , others)
+
+                const __m128 buff = c;
          }
+        
+        _mm_storeu_ps( tab, c );
 
+        //
+        // processing the rest of the elements
+        //
+        for (int i = 0; i < 4; i+= 1)
+        {
+                if (tab[i] > max ) {
+                        max = tab[i];
+                }
+        }
 
-        return 0;
+        return max;
+
 };
 /*
  *
