@@ -29,7 +29,19 @@ float vec_max_sse4(
         const float* __restrict src,
         const int               length)
 {
+        const int simd  = sizeof(__m128) / sizeof(float);
 
+        const __m128 buff = _mm_loadu_ps( src );
+
+         for(int x = 0; x < length; x += simd) {
+
+                const __m128 others = _mm_loadu_ps( src + x );
+
+                const __m128 c = _mm_max_ps(....)
+         }
+
+
+        return 0;
 };
 /*
  *
