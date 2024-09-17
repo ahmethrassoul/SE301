@@ -31,7 +31,7 @@ float vec_max_sse4(
 {
         const int simd  = sizeof(__m128) / sizeof(float);
 
-        const __m128 buff = _mm_loadu_ps( src );
+        __m128 buff = _mm_loadu_ps( src ); // enlever la const devant pour pouvoir ecrir dessus
 
         float max = 0;
         float tab[4];
@@ -40,12 +40,17 @@ float vec_max_sse4(
 
                 const __m128 others = _mm_loadu_ps( src + x );
 
-                const __m128 c = _mm_max_ps(buff , others)
+                buff = _mm_max_ps(buff , others);
 
-                const __m128 buff = c;
+               // const __m128 buff = c;
          }
         
-        _mm_storeu_ps( tab, c );
+        _mm_storeu_ps( tab, buff );
+
+        // Afficher les elements du buffer
+        for(int i = 0; i < 4; i += 1) {
+                printf("buff[%d] = %f\n", i ,  buff[i]);
+        }
 
         //
         // processing the rest of the elements
@@ -55,6 +60,8 @@ float vec_max_sse4(
                 if (tab[i] > max ) {
                         max = tab[i];
                 }
+                printf("tab[%d] = %f\n", i, tab[i]);
+                printf("max = %f\n", max);
         }
 
         return max;
